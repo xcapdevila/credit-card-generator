@@ -1,6 +1,6 @@
 # Credit Card Generator
 
-Utility program to help you generate random *(fake but technically valid)* credit cards for testing purposes.
+Utility program to help you generate random *(dummy but technically valid)* credit cards for testing purposes.
 
 <br>
 
@@ -13,7 +13,7 @@ creditcard.generator.output-file=generated_credit_cards_%s.csv
 
 Output pattern. It must include four '%s' that will be replaced by pan, cvv, expiration date and issuer name.
 ```
-creditcard.generator.output-file=generated_credit_cards_%s.csv
+creditcard.generator.output-pattern=%s,%s,%s,%s
 ```
 
 Credit card issuers list to be generated including:
