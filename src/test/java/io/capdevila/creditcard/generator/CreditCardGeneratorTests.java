@@ -33,7 +33,8 @@ class CreditCardGeneratorTests {
   public void setup() {
     creditCardGeneratorConfiguration = new CreditCardGeneratorConfiguration();
     // Output file must contain one %s (must be improved)
-    creditCardGeneratorConfiguration.setOutputFile("test_cards_%s.csv");
+    val now = LocalDateTime.now();
+    creditCardGeneratorConfiguration.setOutputFile("test_cards_${now}.csv");
     // CSV output pattern is coupled to the tests (must be improved)
     creditCardGeneratorConfiguration.setOutputPattern("%s,%s,%s,%s");
     val creditCardIssuers = new ArrayList<CreditCardIssuer>();
