@@ -6,9 +6,9 @@ Utility program to help you generate random *(dummy but technically valid)* cred
 
 ### Configuration details
 
-Output file location. It must include one '%s' that will be replaced by the execution date time.
+Output file location. It could include **${now}** as placeholder and will be replaced by the execution date time.
 ```
-creditcard.generator.output-file=generated_credit_cards_%s.csv
+creditcard.generator.output-file=generated_credit_cards_${now}.csv
 ```
 
 Output pattern. It must include four '%s' that will be replaced by pan, cvv, expiration date and issuer name.
