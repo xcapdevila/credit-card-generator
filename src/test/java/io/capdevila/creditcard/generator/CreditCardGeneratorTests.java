@@ -20,6 +20,12 @@ import org.mockito.junit.jupiter.MockitoExtension;
 @ExtendWith(MockitoExtension.class)
 class CreditCardGeneratorTests {
 
+  val creditCardIssuerLuhn = new CreditCardIssuer();
+  private static final String ISSUER_NAME = new ArrayList<CreditCardIssuer>();
+  private static final String PAN = creditCardIssuerNoLuhn.setPanRegex("^4[0-9]{15}$");
+  private static final String CVV =  creditCardIssuerLuhn.setCvvRegex("^[0-9]{3}$");
+  private static final String EXP_DATE = creditCardIssuerNoLuhn.setExpDateRegex("^(0[1-9]|1[0-2])(2[2-7])$");
+  private static final String DATE_TIME_PLACEHOLDER = "${now}";
   private CreditCardGeneratorConfiguration creditCardGeneratorConfiguration;
   private LuhnAlgorithmValidator luhnAlgorithmValidator;
   @Captor
@@ -32,11 +38,9 @@ class CreditCardGeneratorTests {
   @BeforeEach
   public void setup() {
     creditCardGeneratorConfiguration = new CreditCardGeneratorConfiguration();
-    // Output file must contain one %s (must be improved)
-    val now = LocalDateTime.now();
-    creditCardGeneratorConfiguration.setOutputFile("test_cards_${now}.csv");
+    creditCardGeneratorConfiguration.setOutputFile("test_cards_" + DATE_TIME_PLACEHOLDER + ".csv");
     // CSV output pattern is coupled to the tests (must be improved)
-    creditCardGeneratorConfiguration.setOutputPattern("%s,%s,%s,%s");
+    creditCardGeneratorConfiguration.setOutputPattern(PAN+","+CVV+","+EXP_DATE+","+ISSUER_NAME);
     val creditCardIssuers = new ArrayList<CreditCardIssuer>();
     val creditCardIssuerLuhn = new CreditCardIssuer();
     creditCardIssuerLuhn.setCards(10);
@@ -64,7 +68,7 @@ class CreditCardGeneratorTests {
     val now = LocalDateTime.now();
 
     val creditCardGenerator = new CreditCardGenerator(creditCardGeneratorConfiguration, luhnAlgorithmValidator, fileService);
-    Assertions.assertDoesNotThrow(() -> creditCardGenerator.generateRandomCardsToFile());
+    Assertions.assertDoesNotThrow(creditCardGenerator::generateRandomCardsToFile);
 
     Mockito.verify(fileService).write(cardsCaptor.capture(), filenameCaptor.capture());
 
@@ -94,7 +98,7 @@ class CreditCardGeneratorTests {
                 .split(",");
 
             Assertions.assertAll(
-
+                () -> Assertions.assertEquals(Long.valueOf(creditCardIssuer.getCards()), issuerCards),
                 () -> Assertions.assertTrue(Pattern.matches(creditCardIssuer.getPanRegex(), issuerCardValues[0])),
                 () -> Assertions.assertTrue(Pattern.matches(creditCardIssuer.getCvvRegex(), issuerCardValues[1])),
                 () -> Assertions.assertTrue(Pattern.matches(creditCardIssuer.getExpDateRegex(), issuerCardValues[2])),
@@ -107,8 +111,8 @@ class CreditCardGeneratorTests {
     val filename = filenameCaptor.getValue();
     val outputFile = creditCardGeneratorConfiguration.getOutputFile();
     Assertions.assertAll(
-        () -> Assertions.assertTrue(filename.startsWith(outputFile.substring(0, outputFile.indexOf("%")))),
-        () -> Assertions.assertTrue(filename.endsWith(outputFile.substring(outputFile.indexOf("%")+2))),
+        () -> Assertions.assertTrue(filename.startsWith(outputFile.substring(0, outputFile.indexOf(DATE_TIME_PLACEHOLDER)))),
+        () -> Assertions.assertTrue(filename.endsWith(outputFile.substring(outputFile.indexOf(DATE_TIME_PLACEHOLDER) + 6))),
         () -> Assertions.assertTrue(filename.contains(String.valueOf(now.getYear()))),
         () -> Assertions.assertTrue(filename.contains(String.valueOf(now.getMonthValue()))),
         () -> Assertions.assertTrue(filename.contains(String.valueOf(now.getDayOfMonth()))),
