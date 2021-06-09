@@ -107,7 +107,7 @@ class CreditCardGeneratorTests {
     val outputFile = creditCardGeneratorConfiguration.getOutputFile();
     Assertions.assertAll(
         () -> Assertions.assertTrue(filename.startsWith(outputFile.substring(0, outputFile.indexOf(DATE_TIME_PLACEHOLDER)))),
-        () -> Assertions.assertTrue(filename.endsWith(outputFile.substring(outputFile.indexOf(DATE_TIME_PLACEHOLDER) + 6))),
+        () -> Assertions.assertTrue(filename.endsWith(outputFile.substring(outputFile.indexOf(DATE_TIME_PLACEHOLDER) + DATE_TIME_PLACEHOLDER.length()))),
         () -> Assertions.assertTrue(filename.contains(String.valueOf(now.getYear()))),
         () -> Assertions.assertTrue(filename.contains(String.valueOf(now.getMonthValue()))),
         () -> Assertions.assertTrue(filename.contains(String.valueOf(now.getDayOfMonth()))),
