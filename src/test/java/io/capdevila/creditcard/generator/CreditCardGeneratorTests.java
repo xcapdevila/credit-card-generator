@@ -20,6 +20,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 @ExtendWith(MockitoExtension.class)
 class CreditCardGeneratorTests {
 
+  private static final String DATE_TIME_PLACEHOLDER = "${now}";
   private CreditCardGeneratorConfiguration creditCardGeneratorConfiguration;
   private LuhnAlgorithmValidator luhnAlgorithmValidator;
   @Captor
@@ -32,8 +33,7 @@ class CreditCardGeneratorTests {
   @BeforeEach
   public void setup() {
     creditCardGeneratorConfiguration = new CreditCardGeneratorConfiguration();
-    // Output file must contain one %s (must be improved)
-    creditCardGeneratorConfiguration.setOutputFile("test_cards_${now}.csv");
+    creditCardGeneratorConfiguration.setOutputFile("test_cards_" + DATE_TIME_PLACEHOLDER + ".csv");
     // CSV output pattern is coupled to the tests (must be improved)
     creditCardGeneratorConfiguration.setOutputPattern("%s,%s,%s,%s");
     val creditCardIssuers = new ArrayList<CreditCardIssuer>();
@@ -106,8 +106,8 @@ class CreditCardGeneratorTests {
     val filename = filenameCaptor.getValue();
     val outputFile = creditCardGeneratorConfiguration.getOutputFile();
     Assertions.assertAll(
-        () -> Assertions.assertTrue(filename.startsWith(outputFile.substring(0, outputFile.indexOf("${now}")))),
-        () -> Assertions.assertTrue(filename.endsWith(outputFile.substring(outputFile.indexOf("${now}") + 6))),
+        () -> Assertions.assertTrue(filename.startsWith(outputFile.substring(0, outputFile.indexOf(DATE_TIME_PLACEHOLDER)))),
+        () -> Assertions.assertTrue(filename.endsWith(outputFile.substring(outputFile.indexOf(DATE_TIME_PLACEHOLDER) + 6))),
         () -> Assertions.assertTrue(filename.contains(String.valueOf(now.getYear()))),
         () -> Assertions.assertTrue(filename.contains(String.valueOf(now.getMonthValue()))),
         () -> Assertions.assertTrue(filename.contains(String.valueOf(now.getDayOfMonth()))),
