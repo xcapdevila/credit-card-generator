@@ -42,7 +42,7 @@ public class CreditCardGenerator {
         .replaceAll("-", "_")
         .replaceFirst("T", "_")
         .replaceAll(":", "_");
-    return String.format(creditCardGeneratorConfiguration.getOutputFile(), nowFilename);
+    return creditCardGeneratorConfiguration.getOutputFile().replaceAll("\\$\\{now}", nowFilename);
   }
 
   public Set<String> generateRandomCards() {
