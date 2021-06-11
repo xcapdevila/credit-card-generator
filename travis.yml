@@ -1,0 +1,16 @@
+arch: amd64
+
+language: java
+
+jdk:
+  - openjdk8
+
+cache:
+  directories:
+    - $HOME/.m2
+
+env:
+  - CI=true
+
+script:
+  - ./mvnw clean verify package
