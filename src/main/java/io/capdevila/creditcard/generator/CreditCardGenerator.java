@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.regex.Pattern;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
@@ -18,6 +19,12 @@ import org.springframework.stereotype.Component;
 @Component
 @RequiredArgsConstructor
 public class CreditCardGenerator {
+
+  private static final Pattern NOW_REGEX = Pattern.compile("\\$\\{now}");
+  private static final Pattern PAN_REGEX = Pattern.compile("\\$\\{pan}");
+  private static final Pattern CVV_REGEX = Pattern.compile("\\$\\{cvv}");
+  private static final Pattern EXP_DATE_REGEX = Pattern.compile("\\$\\{expDate}");
+  private static final Pattern ISSUER_NAME_REGEX = Pattern.compile("\\$\\{issuerName}");
 
   private final CreditCardGeneratorConfiguration creditCardGeneratorConfiguration;
   private final LuhnAlgorithmValidator luhnAlgorithmValidator;
@@ -42,7 +49,7 @@ public class CreditCardGenerator {
         .replaceAll("-", "_")
         .replaceFirst("T", "_")
         .replaceAll(":", "_");
-    return creditCardGeneratorConfiguration.getOutputFile().replaceAll("\\$\\{now}", nowFilename);
+    return NOW_REGEX.matcher(creditCardGeneratorConfiguration.getOutputFile()).replaceAll(nowFilename);
   }
 
   public Set<String> generateRandomCards() {
@@ -61,12 +68,12 @@ public class CreditCardGenerator {
           pan = panGenerator.generate();
           isValid = !creditCardIssuer.isLuhnCompliant() || luhnAlgorithmValidator.isValid(pan);
           if (isValid) {
-            val cardInfo =
-                    creditCardGeneratorConfiguration.getOutputPattern()
-                                                    .replaceAll("\\$\\{pan}", pan)
-                                                    .replaceAll("\\$\\{cvv}", cvvGenerator.generate())
-                                                    .replaceAll("\\$\\{expDate}", expDateGenerator.generate())
-                                                    .replaceAll("\\$\\{issuerName}", creditCardIssuer.getName());
+            String cardInfo = creditCardGeneratorConfiguration.getOutputPattern();
+            cardInfo = PAN_REGEX.matcher(cardInfo).replaceAll(pan);
+            cardInfo = CVV_REGEX.matcher(cardInfo).replaceAll(cvvGenerator.generate());
+            cardInfo = EXP_DATE_REGEX.matcher(cardInfo).replaceAll(expDateGenerator.generate());
+            cardInfo = ISSUER_NAME_REGEX.matcher(cardInfo).replaceAll(creditCardIssuer.getName());
+
             isValid = cards.add(cardInfo);
             if (log.isDebugEnabled() && isValid) {
               log.debug("Generated card: {}", cardInfo);
