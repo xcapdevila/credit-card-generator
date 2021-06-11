@@ -1,5 +1,7 @@
 package io.capdevila.creditcard.generator;
 
+import static java.util.Arrays.asList;
+
 import io.capdevila.creditcard.generator.CreditCardGeneratorConfiguration.CreditCardIssuer;
 import java.io.IOException;
 import java.time.LocalDateTime;
@@ -18,8 +20,6 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import static java.util.Arrays.asList;
-
 @ExtendWith(MockitoExtension.class)
 class CreditCardGeneratorTests {
 
@@ -29,7 +29,7 @@ class CreditCardGeneratorTests {
   private static final String EXP_DATE_PLACEHOLDER = "${expDate}";
   private static final String ISSUER_NAME_PLACEHOLDER = "${issuerName}";
   private static final List<String> OUTPUT_PATTERN_KEYWORDS =
-          asList(PAN_PLACEHOLDER, CVV_PLACEHOLDER, EXP_DATE_PLACEHOLDER, ISSUER_NAME_PLACEHOLDER);
+      asList(PAN_PLACEHOLDER, CVV_PLACEHOLDER, EXP_DATE_PLACEHOLDER, ISSUER_NAME_PLACEHOLDER);
   private static final String DELIMITER = ",";
   private CreditCardGeneratorConfiguration creditCardGeneratorConfiguration;
   private LuhnAlgorithmValidator luhnAlgorithmValidator;
@@ -72,6 +72,8 @@ class CreditCardGeneratorTests {
 
   @Test
   void givenAValidConfigCardsAreGeneratedAndWrittenToFile() throws IOException {
+    Assertions.assertFalse(creditCardGeneratorConfiguration.getIssuers().isEmpty());
+
     val now = LocalDateTime.now();
 
     val creditCardGenerator = new CreditCardGenerator(creditCardGeneratorConfiguration, luhnAlgorithmValidator, fileService);
@@ -109,10 +111,14 @@ class CreditCardGeneratorTests {
             val expDateIdx = OUTPUT_PATTERN_KEYWORDS.indexOf(EXP_DATE_PLACEHOLDER);
             Assertions.assertAll(
                 () -> Assertions.assertTrue(!outputPattern.contains(ISSUER_NAME_PLACEHOLDER) || creditCardIssuer.getCards() == issuerCards),
-                () -> Assertions.assertTrue(!outputPattern.contains(PAN_PLACEHOLDER) || Pattern.matches(creditCardIssuer.getPanRegex(), issuerCardValues[panIdx])),
-                () -> Assertions.assertTrue(!outputPattern.contains(CVV_PLACEHOLDER) || Pattern.matches(creditCardIssuer.getCvvRegex(), issuerCardValues[cvvIdx])),
-                () -> Assertions.assertTrue(!outputPattern.contains(EXP_DATE_PLACEHOLDER) || Pattern.matches(creditCardIssuer.getExpDateRegex(), issuerCardValues[expDateIdx])),
-                () -> Assertions.assertTrue(!creditCardIssuer.isLuhnCompliant() || !outputPattern.contains(PAN_PLACEHOLDER) || luhnAlgorithmValidator.isValid(issuerCardValues[panIdx]))
+                () -> Assertions
+                    .assertTrue(!outputPattern.contains(PAN_PLACEHOLDER) || Pattern.matches(creditCardIssuer.getPanRegex(), issuerCardValues[panIdx])),
+                () -> Assertions
+                    .assertTrue(!outputPattern.contains(CVV_PLACEHOLDER) || Pattern.matches(creditCardIssuer.getCvvRegex(), issuerCardValues[cvvIdx])),
+                () -> Assertions.assertTrue(
+                    !outputPattern.contains(EXP_DATE_PLACEHOLDER) || Pattern.matches(creditCardIssuer.getExpDateRegex(), issuerCardValues[expDateIdx])),
+                () -> Assertions.assertTrue(
+                    !creditCardIssuer.isLuhnCompliant() || !outputPattern.contains(PAN_PLACEHOLDER) || luhnAlgorithmValidator.isValid(issuerCardValues[panIdx]))
             );
           }
         }

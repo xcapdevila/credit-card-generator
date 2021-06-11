@@ -3,7 +3,6 @@ package io.capdevila.creditcard.generator;
 import java.util.List;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 import lombok.Getter;
 import lombok.Setter;
@@ -25,6 +24,7 @@ public class CreditCardGeneratorConfiguration {
   private String outputFile;
   @NotBlank
   private String outputPattern;
+  @NotEmpty
   private List<CreditCardIssuer> issuers;
 
   @Getter
