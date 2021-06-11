@@ -11,9 +11,13 @@ Output file location. It could include **${now}** as placeholder and will be rep
 creditcard.generator.output-file=generated_credit_cards_${now}.csv
 ```
 
-Output pattern. It must include four '%s' that will be replaced by pan, cvv, expiration date and issuer name.
+Output pattern. It may include the following placeholders:
+1. **${pan}** - the pan
+1. **${cvv}** - the cvv
+1. **${expDate}** - the expiration date
+1. **${expDate}** - the issuer name
 ```
-creditcard.generator.output-pattern=%s,%s,%s,%s
+creditcard.generator.output-pattern=${pan},${cvv},${expDate},${expDate}
 ```
 
 Credit card issuers list to be generated including:

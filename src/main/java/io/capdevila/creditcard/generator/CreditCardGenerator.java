@@ -61,12 +61,12 @@ public class CreditCardGenerator {
           pan = panGenerator.generate();
           isValid = !creditCardIssuer.isLuhnCompliant() || luhnAlgorithmValidator.isValid(pan);
           if (isValid) {
-            val cardInfo = String
-                .format(creditCardGeneratorConfiguration.getOutputPattern(),
-                    pan,
-                    cvvGenerator.generate(),
-                    expDateGenerator.generate(),
-                    creditCardIssuer.getName());
+            val cardInfo =
+                    creditCardGeneratorConfiguration.getOutputPattern()
+                                                    .replaceAll("\\$\\{pan}", pan)
+                                                    .replaceAll("\\$\\{cvv}", cvvGenerator.generate())
+                                                    .replaceAll("\\$\\{expDate}", expDateGenerator.generate())
+                                                    .replaceAll("\\$\\{issuerName}", creditCardIssuer.getName());
             isValid = cards.add(cardInfo);
             if (log.isDebugEnabled() && isValid) {
               log.debug("Generated card: {}", cardInfo);
