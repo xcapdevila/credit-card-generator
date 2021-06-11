@@ -6,27 +6,27 @@ Utility program to help you generate random *(dummy but technically valid)* cred
 
 ### Configuration details
 
-Output file location. It could include **${now}** as placeholder and will be replaced by the execution date time.
+Output file location. It may include **${now}** as placeholder and it will be replaced by the execution date time.
 ```
 creditcard.generator.output-file=generated_credit_cards_${now}.csv
 ```
 
 Output pattern. It may include the following placeholders:
-1. **${pan}** - the pan
-1. **${cvv}** - the cvv
-1. **${expDate}** - the expiration date
-1. **${expDate}** - the issuer name
+- **${pan}** - it will be replaced by the generated pan
+- **${cvv}** - it will be replaced by the generated cvv
+- **${expDate}** - it will be replaced by the generated expiration date
+- **${expDate}** - it will be replaced by the issuer name
 ```
 creditcard.generator.output-pattern=${pan},${cvv},${expDate},${expDate}
 ```
 
 Credit card issuers list to be generated including:
-- Name: issuer name
-- Cards: number of cards to be generated
-- PAN Regex: regular expression to generate the PAN value
-- CVV Regex: regular expression to generate the CVV value
-- Expiration Date Regex: regular expression to generate the expiration date value
-- Luhn Compliant: whether it must be luhn compliant or not
+- **Name:** issuer name
+- **Cards:** number of cards to be generated
+- **PAN Regex:** regular expression to generate the PAN value
+- **CVV Regex:** regular expression to generate the CVV value
+- **Expiration Date Regex:** regular expression to generate the expiration date value
+- **Luhn Compliant:** whether it must be luhn compliant or not
 ```
 creditcard.generator.issuers[0].name=VISA
 creditcard.generator.issuers[0].cards=100
