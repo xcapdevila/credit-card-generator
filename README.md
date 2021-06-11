@@ -2,6 +2,8 @@
 
 Utility program to help you generate random *(dummy but technically valid)* credit cards for testing purposes.
 
+[![Build Status](https://travis-ci.com/xcapdevila/credit-card-generator.svg?branch=travis_ci)](https://travis-ci.com/xcapdevila/credit-card-generator)
+[![Coverage Status](https://coveralls.io/repos/github/xcapdevila/credit-card-generator/badge.svg?branch=travis_ci)](https://coveralls.io/github/xcapdevila/credit-card-generator?branch=travis_ci)
 <br>
 
 ### Configuration details
