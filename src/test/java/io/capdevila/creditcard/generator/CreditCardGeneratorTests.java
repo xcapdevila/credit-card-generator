@@ -1,16 +1,19 @@
 package io.capdevila.creditcard.generator;
 
 import static java.util.Arrays.asList;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.when;
 
 import io.capdevila.creditcard.generator.CreditCardGeneratorConfiguration.CreditCardIssuer;
 import java.io.IOException;
+import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.regex.Pattern;
 import lombok.val;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -31,6 +34,7 @@ class CreditCardGeneratorTests {
   private static final List<String> OUTPUT_PATTERN_KEYWORDS =
       asList(PAN_PLACEHOLDER, CVV_PLACEHOLDER, EXP_DATE_PLACEHOLDER, ISSUER_NAME_PLACEHOLDER);
   private static final String DELIMITER = ",";
+  
   private CreditCardGeneratorConfiguration creditCardGeneratorConfiguration;
   private LuhnAlgorithmValidator luhnAlgorithmValidator;
   @Captor
@@ -72,12 +76,15 @@ class CreditCardGeneratorTests {
 
   @Test
   void givenAValidConfigCardsAreGeneratedAndWrittenToFile() throws IOException {
-    Assertions.assertFalse(creditCardGeneratorConfiguration.getIssuers().isEmpty());
+    val path = Paths.get("pom.xml");
+    when(fileService.write(any(Set.class), any(String.class))).thenReturn(path);
+
+    assertFalse(creditCardGeneratorConfiguration.getIssuers().isEmpty());
 
     val now = LocalDateTime.now();
 
     val creditCardGenerator = new CreditCardGenerator(creditCardGeneratorConfiguration, luhnAlgorithmValidator, fileService);
-    Assertions.assertDoesNotThrow(creditCardGenerator::generateRandomCardsToFile);
+    assertEquals(path, creditCardGenerator.generateRandomCardsToFile());
 
     Mockito.verify(fileService).write(cardsCaptor.capture(), filenameCaptor.capture());
 
@@ -89,8 +96,8 @@ class CreditCardGeneratorTests {
         .orElseThrow(RuntimeException::new);
 
     val outputPattern = creditCardGeneratorConfiguration.getOutputPattern();
-    Assertions.assertAll(
-        () -> Assertions.assertEquals(expectedCards.intValue(), cards.size()),
+    assertAll(
+        () -> assertEquals(expectedCards.intValue(), cards.size()),
         () -> {
           for (CreditCardIssuer creditCardIssuer : creditCardGeneratorConfiguration.getIssuers()) {
 
@@ -109,15 +116,13 @@ class CreditCardGeneratorTests {
             val panIdx = OUTPUT_PATTERN_KEYWORDS.indexOf(PAN_PLACEHOLDER);
             val cvvIdx = OUTPUT_PATTERN_KEYWORDS.indexOf(CVV_PLACEHOLDER);
             val expDateIdx = OUTPUT_PATTERN_KEYWORDS.indexOf(EXP_DATE_PLACEHOLDER);
-            Assertions.assertAll(
-                () -> Assertions.assertTrue(!outputPattern.contains(ISSUER_NAME_PLACEHOLDER) || creditCardIssuer.getCards() == issuerCards),
-                () -> Assertions
-                    .assertTrue(!outputPattern.contains(PAN_PLACEHOLDER) || Pattern.matches(creditCardIssuer.getPanRegex(), issuerCardValues[panIdx])),
-                () -> Assertions
-                    .assertTrue(!outputPattern.contains(CVV_PLACEHOLDER) || Pattern.matches(creditCardIssuer.getCvvRegex(), issuerCardValues[cvvIdx])),
-                () -> Assertions.assertTrue(
+            assertAll(
+                () -> assertTrue(!outputPattern.contains(ISSUER_NAME_PLACEHOLDER) || creditCardIssuer.getCards() == issuerCards),
+                () -> assertTrue(!outputPattern.contains(PAN_PLACEHOLDER) || Pattern.matches(creditCardIssuer.getPanRegex(), issuerCardValues[panIdx])),
+                () -> assertTrue(!outputPattern.contains(CVV_PLACEHOLDER) || Pattern.matches(creditCardIssuer.getCvvRegex(), issuerCardValues[cvvIdx])),
+                () -> assertTrue(
                     !outputPattern.contains(EXP_DATE_PLACEHOLDER) || Pattern.matches(creditCardIssuer.getExpDateRegex(), issuerCardValues[expDateIdx])),
-                () -> Assertions.assertTrue(
+                () -> assertTrue(
                     !creditCardIssuer.isLuhnCompliant() || !outputPattern.contains(PAN_PLACEHOLDER) || luhnAlgorithmValidator.isValid(issuerCardValues[panIdx]))
             );
           }
@@ -126,14 +131,14 @@ class CreditCardGeneratorTests {
 
     val filename = filenameCaptor.getValue();
     val outputFile = creditCardGeneratorConfiguration.getOutputFile();
-    Assertions.assertAll(
-        () -> Assertions.assertTrue(filename.startsWith(outputFile.substring(0, outputFile.indexOf(DATE_TIME_PLACEHOLDER)))),
-        () -> Assertions.assertTrue(filename.endsWith(outputFile.substring(outputFile.indexOf(DATE_TIME_PLACEHOLDER) + DATE_TIME_PLACEHOLDER.length()))),
-        () -> Assertions.assertTrue(filename.contains(String.valueOf(now.getYear()))),
-        () -> Assertions.assertTrue(filename.contains(String.valueOf(now.getMonthValue()))),
-        () -> Assertions.assertTrue(filename.contains(String.valueOf(now.getDayOfMonth()))),
-        () -> Assertions.assertTrue(filename.contains(String.valueOf(now.getHour()))),
-        () -> Assertions.assertTrue(filename.contains(String.valueOf(now.getMinute())))
+    assertAll(
+        () -> assertTrue(filename.startsWith(outputFile.substring(0, outputFile.indexOf(DATE_TIME_PLACEHOLDER)))),
+        () -> assertTrue(filename.endsWith(outputFile.substring(outputFile.indexOf(DATE_TIME_PLACEHOLDER) + DATE_TIME_PLACEHOLDER.length()))),
+        () -> assertTrue(filename.contains(String.valueOf(now.getYear()))),
+        () -> assertTrue(filename.contains(String.valueOf(now.getMonthValue()))),
+        () -> assertTrue(filename.contains(String.valueOf(now.getDayOfMonth()))),
+        () -> assertTrue(filename.contains(String.valueOf(now.getHour()))),
+        () -> assertTrue(filename.contains(String.valueOf(now.getMinute())))
     );
 
   }

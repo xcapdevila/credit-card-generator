@@ -3,6 +3,7 @@ package io.capdevila.creditcard.generator;
 import com.github.curiousoddman.rgxgen.RgxGen;
 import io.capdevila.creditcard.generator.CreditCardGeneratorConfiguration.CreditCardIssuer;
 import java.io.IOException;
+import java.nio.file.Path;
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
@@ -30,16 +31,16 @@ public class CreditCardGenerator {
   private final LuhnAlgorithmValidator luhnAlgorithmValidator;
   private final FileService fileService;
 
-  public boolean generateRandomCardsToFile() throws IOException {
+  public Path generateRandomCardsToFile() throws IOException {
     log.info("Generating random cards...");
     val cards = generateRandomCards();
 
     log.info("Getting filename...");
     val filename = getDateBasedFilename();
     log.info("Writing to file...");
-    fileService.write(cards, filename);
-    log.info("Generated cards written into {}", filename);
-    return true;
+    final Path filePath = fileService.write(cards, filename);
+    log.info("Generated cards to file successful");
+    return filePath;
   }
 
   private String getDateBasedFilename() {
