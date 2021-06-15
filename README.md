@@ -17,9 +17,9 @@ Output pattern. It may include the following placeholders:
 - **${pan}** - it will be replaced by the generated pan
 - **${cvv}** - it will be replaced by the generated cvv
 - **${expDate}** - it will be replaced by the generated expiration date
-- **${expDate}** - it will be replaced by the issuer name
+- **${issuerName}** - it will be replaced by the issuer name
 ```
-creditcard.generator.output-pattern=${pan},${cvv},${expDate},${expDate}
+creditcard.generator.output-pattern=${pan},${cvv},${expDate},${issuerName}
 ```
 
 Credit card issuers list to be generated including:
