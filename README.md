@@ -4,7 +4,9 @@ Utility program to help you generate random *(dummy but technically valid)* cred
 
 [![Build Status](https://travis-ci.com/xcapdevila/credit-card-generator.svg)](https://travis-ci.com/xcapdevila/credit-card-generator)
 [![Coverage Status](https://coveralls.io/repos/github/xcapdevila/credit-card-generator/badge.svg)](https://coveralls.io/github/xcapdevila/credit-card-generator)
+[![Known Vulnerabilities](https://snyk.io/test/github/xcapdevila/credit-card-generator/badge.svg)](https://snyk.io/test/github/xcapdevila/credit-card-generator)
 <br>
+
 
 ### Configuration details
 
