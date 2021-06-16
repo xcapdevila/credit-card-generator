@@ -6,8 +6,8 @@ Utility program to help you generate random *(dummy but technically valid)* cred
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=xcapdevila_credit-card-generator&metric=alert_status)](https://sonarcloud.io/dashboard?id=xcapdevila_credit-card-generator)
 [![Coverage Status](https://coveralls.io/repos/github/xcapdevila/credit-card-generator/badge.svg)](https://coveralls.io/github/xcapdevila/credit-card-generator)
 [![Known Vulnerabilities](https://snyk.io/test/github/xcapdevila/credit-card-generator/badge.svg)](https://snyk.io/test/github/xcapdevila/credit-card-generator)
-<br>
 
+<br>
 
 ### Configuration details
 
