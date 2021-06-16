@@ -3,7 +3,7 @@ arch: amd64
 language: java
 
 jdk:
-  - openjdk8
+  - openjdk11
 
 cache:
   directories:
@@ -12,8 +12,12 @@ cache:
 env:
   - CI=true
 
+addons:
+  sonarcloud:
+    organization: "xcapdevila"
+
 script:
-  - ./mvnw clean verify package
+  - ./mvnw clean verify package sonar:sonar -Dsonar.projectKey=xcapdevila_credit-card-generator
 
 after_success:
   - ./mvnw clean test jacoco:report coveralls:report
