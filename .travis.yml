@@ -3,7 +3,6 @@ arch: amd64
 language: java
 
 jdk:
-#  - openjdk8
   - openjdk11
 
 cache:
@@ -18,7 +17,6 @@ addons:
     organization: "xcapdevila"
 
 script:
-#  - ./mvnw clean verify package
   - ./mvnw clean verify package sonar:sonar -Dsonar.projectKey=xcapdevila_credit-card-generator
 
 after_success:
