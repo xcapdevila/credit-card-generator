@@ -1,7 +1,7 @@
-package io.capdevila.creditcard.generator;
+package com.github.xcapdevila.creditcard.generator;
 
 import com.github.curiousoddman.rgxgen.RgxGen;
-import io.capdevila.creditcard.generator.CreditCardGeneratorConfiguration.CreditCardIssuer;
+import com.github.xcapdevila.creditcard.generator.CreditCardGeneratorConfiguration.CreditCardIssuer;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.time.LocalDateTime;

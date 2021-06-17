@@ -1,4 +1,4 @@
-package io.capdevila.creditcard.generator;
+package com.github.xcapdevila.creditcard.generator;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

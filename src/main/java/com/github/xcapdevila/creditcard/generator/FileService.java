@@ -1,4 +1,4 @@
-package io.capdevila.creditcard.generator;
+package com.github.xcapdevila.creditcard.generator;
 
 import static java.nio.file.StandardOpenOption.APPEND;
 import static java.nio.file.StandardOpenOption.CREATE;

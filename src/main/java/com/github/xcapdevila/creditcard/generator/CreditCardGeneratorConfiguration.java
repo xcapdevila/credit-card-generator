@@ -1,4 +1,4 @@
-package io.capdevila.creditcard.generator;
+package com.github.xcapdevila.creditcard.generator;
 
 import java.util.List;
 import javax.validation.constraints.NotBlank;
