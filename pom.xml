@@ -9,7 +9,7 @@
     <version>2.5.0</version> <!-- lookup parent from repository -->
   </parent>
 
-  <groupId>com.github.xcapdevila</groupId>
+  <groupId>io.github.xcapdevila</groupId>
   <artifactId>creditcard-generator</artifactId>
   <version>1.5</version>
 
@@ -178,8 +178,8 @@
         </dependencies>
         <configuration>
           <targetClasses>
-            <param>com.github.xcapdevila.creditcard.generator.CreditCardGenerator</param>
-            <param>com.github.xcapdevila.creditcard.generator.LuhnAlgorithmValidator</param>
+            <param>io.github.xcapdevila.creditcard.generator.CreditCardGenerator</param>
+            <param>io.github.xcapdevila.creditcard.generator.LuhnAlgorithmValidator</param>
           </targetClasses>
           <targetTests>
             <param>io.capdevila.creditcard.generator.*</param>

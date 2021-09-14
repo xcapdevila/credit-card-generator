@@ -1,7 +1,7 @@
-package com.github.xcapdevila.creditcard.generator;
+package io.github.xcapdevila.creditcard.generator;
 
 import com.github.curiousoddman.rgxgen.RgxGen;
-import com.github.xcapdevila.creditcard.generator.CreditCardGeneratorConfiguration.CreditCardIssuer;
+
 import java.io.IOException;
 import java.nio.file.Path;
 import java.time.LocalDateTime;
@@ -56,7 +56,7 @@ public class CreditCardGenerator {
   public Set<String> generateRandomCards() {
     val cards = new HashSet<String>();
     log.info("Card generator process starting...");
-    for (CreditCardIssuer creditCardIssuer : creditCardGeneratorConfiguration.getIssuers()) {
+    for (CreditCardGeneratorConfiguration.CreditCardIssuer creditCardIssuer : creditCardGeneratorConfiguration.getIssuers()) {
       log.info("Generating {} {} cards...", creditCardIssuer.getCards(), creditCardIssuer.getName());
 
       val panGenerator = new RgxGen(creditCardIssuer.getPanRegex());

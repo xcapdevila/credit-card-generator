@@ -1,4 +1,4 @@
-package com.github.xcapdevila.creditcard.generator;
+package io.github.xcapdevila.creditcard.generator;
 
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;

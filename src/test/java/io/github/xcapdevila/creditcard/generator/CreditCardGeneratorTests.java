@@ -1,11 +1,11 @@
-package com.github.xcapdevila.creditcard.generator;
+package io.github.xcapdevila.creditcard.generator;
 
 import static java.util.Arrays.asList;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
-import com.github.xcapdevila.creditcard.generator.CreditCardGeneratorConfiguration.CreditCardIssuer;
+import io.github.xcapdevila.creditcard.generator.CreditCardGeneratorConfiguration.CreditCardIssuer;
 import java.io.IOException;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;

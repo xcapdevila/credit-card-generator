@@ -1,4 +1,4 @@
-package com.github.xcapdevila.creditcard.generator;
+package io.github.xcapdevila.creditcard.generator;
 
 import org.springframework.stereotype.Component;
 
