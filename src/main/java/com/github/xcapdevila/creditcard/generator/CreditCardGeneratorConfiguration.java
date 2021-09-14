@@ -3,6 +3,7 @@ package com.github.xcapdevila.creditcard.generator;
 import java.util.List;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 import lombok.Getter;
 import lombok.Setter;
@@ -33,7 +34,7 @@ public class CreditCardGeneratorConfiguration {
 
     @NotBlank
     private String name;
-    @Positive
+    @NotNull
     private Integer cards;
     @NotBlank
     private String panRegex;
