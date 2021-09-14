@@ -13,8 +13,30 @@
   <artifactId>creditcard-generator</artifactId>
   <version>1.5</version>
 
-  <name>creditcard-generator</name>
+  <name>${project.groupId}:${project.artifactId}</name>
   <description>Utility program to help you generate random (dummy but technically valid) credit cards for testing purposes</description>
+  <url>https://github.com/xcapdevila/creditcard-generator</url>
+
+  <licenses>
+    <license>
+      <name>MIT License</name>
+      <url>https://www.opensource.org/licenses/mit-license.php</url>
+    </license>
+  </licenses>
+
+  <developers>
+    <developer>
+      <name>Xavier Capdevila</name>
+      <url>https://github.com/xcapdevila</url>
+      <roles>
+        <role>project owner</role>
+        <role>architect</role>
+        <role>developer</role>
+      </roles>
+      <organization>capdevila.io</organization>
+      <organizationUrl>https://capdevila.io</organizationUrl>
+    </developer>
+  </developers>
 
   <properties>
     <java.version>8</java.version>
